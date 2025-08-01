@@ -5,7 +5,7 @@ import { Injectable } from "@nestjs/common";
 export class JobService {
     constructor(private prisma: PrismaService) {}
 
-    async findById(id : String) {
+    async findById(id : string) {
         return this.prisma.jobs.findUnique({
             where : {
                 id 

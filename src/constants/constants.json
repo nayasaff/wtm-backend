@@ -1,0 +1,10 @@
+{
+    "ROLES" : {
+        "ADMIN" : "admin",
+        "JOBSEEKER" : "jobseeker"
+    },
+    "APPLICATION_STATUS" : {
+        "REJECTED" : "rejected",
+        "REVIEWED" : "reviewed"
+    }
+}
