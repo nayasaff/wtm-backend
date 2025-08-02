@@ -1,5 +1,6 @@
 import { PrismaService } from "src/prisma.service";
 import { Injectable } from "@nestjs/common";
+import {JobStatus} from "@prisma/client"
 
 @Injectable()
 export class JobService {
@@ -14,33 +15,91 @@ export class JobService {
     }
 
     async findMany(params : {
-        skip : number;
-        take : number;
-        location : String;
-        status : String;
-        title : String
+        location : string;
+        status : string;
+        title : string
     }){
 
-        const {skip, take, location, status, title} = params
+        const {location, status, title} = params
         
-        let query = {}
+        let query: Record<string, any> = {}
 
         if(location){
-            query["location"] = { location: { contains: location, mode: 'insensitive' } }
+            query.location =  { contains: location, mode: 'insensitive' } 
         }
         if(status) {
-            query["status"] = {status : status}
+            query.status = status
         }
         if(title){
-            query["title"] = {title: { contains: location, mode: 'insensitive' }}
+            query.title ={ contains: title, mode: 'insensitive' }
         }
 
-        return this.prisma.jobs.findMany({
-            skip, 
-            take,
-            where : query
+        console.log(query)
+
+        return await this.prisma.jobs.findMany({
+            where : query,
+            include : {
+                applications : true
+            }
         })
     }
+
+    async create(params : {
+        title : string,
+        description : string,
+        location : string,
+        status : JobStatus,
+        salary : number,
+        department : string,
+        userId : string
+    }){
+
+        const {title, description, location, status, salary, department, userId} = params
+
+        return await this.prisma.jobs.create({
+            data : {
+                title,
+                description,
+                location,
+                status,
+                salary,
+                department,
+                admin : {
+                    connect : {id : userId}
+                }
+            } 
+
+        })
+    }
+
+    async update(params : {
+        jobId : string,
+        title : string,
+        description : string,
+        location : string,
+        status : JobStatus,
+        salary : number,
+        department : string,
+    }){
+
+        const {title, description, location, status, salary, department, jobId} = params
+
+        return this.prisma.jobs.update({
+            where : {
+                id : jobId
+            },
+            data : {
+                title,
+                description,
+                department,
+                location,
+                status,
+                salary
+            }
+        })
+
+    }
+
 
 
 }
