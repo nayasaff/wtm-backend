@@ -41,6 +41,7 @@ model Jobs {
   location String
   salary Float
   status JobStatus
+  department String
   createdBy String
   admin Users @relation( fields: [createdBy], references: [id])
   applications Applications[]

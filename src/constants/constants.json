@@ -6,5 +6,9 @@
     "APPLICATION_STATUS" : {
         "REJECTED" : "rejected",
         "REVIEWED" : "reviewed"
+    },
+    "JOB_STATUS" : {
+        "OPEN" : "open",
+        "CLOSED": "closed"
     }
 }

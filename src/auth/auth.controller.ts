@@ -9,8 +9,8 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  logIn(@Body() loginDto: LoginDto) {
-    return this.authService.logIn(loginDto.email, loginDto.password);
+  async logIn(@Body() loginDto: LoginDto) {
+    return await this.authService.logIn(loginDto.email, loginDto.password);
   }
 
   @HttpCode(HttpStatus.OK)
